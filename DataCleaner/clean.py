@@ -2,11 +2,12 @@ import pandas as pd
 import os
 
 class DataCleaner:
-    def __init__(self,file_path,missing = 'drop',duplicates = True,show_log = False):
+    def __init__(self,file_path,missing = 'drop',duplicates = True,show_log = False,show_corr = True):
         self.file_path = file_path
         self.missing = missing
         self.duplicates = duplicates
         self.show_log = show_log
+        self.show_corr = show_corr
 
     def _log(self, message):
         if self.show_log:
@@ -60,13 +61,21 @@ class DataCleaner:
         
         return df
 
+    def show_correlation(self,df):
+        if not self.show_corr :
+            return 
+        corr_matrix = df.corr(numeric_only = True)
+        print("\nCorrelation Matrix\n")
+        print(corr_matrix.round(2))
+        return
+
     def clean(self):
 
         try:
             df = self.load_data()
             df = self.remove_duplicates(df)
             df = self.handle_missing_values(df)
-
+            self.show_correlation(df)
             self._log('Cleaning complete')
 
             return df
