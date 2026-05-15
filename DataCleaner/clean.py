@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 import os
 
 class DataCleaner:
@@ -8,11 +9,11 @@ class DataCleaner:
         self.duplicates = duplicates
         self.show_log = show_log
         self.show_corr = show_corr
-
+    # to show logs of currently what is happeing 
     def _log(self, message):
         if self.show_log:
             print(f'[DataCleaner INFO]: {message}')
-
+    # loading data into the module
     def load_data(self):
 
         if not os.path.exists(self.file_path):
@@ -34,7 +35,7 @@ class DataCleaner:
         self._log(f'Data loaded sucessfully with shape {df.shape}')
 
         return df
-    
+    # to remove duplicates
     def remove_duplicates(self,df):
         if self.duplicates:
             before = df.shape[0]
@@ -47,20 +48,20 @@ class DataCleaner:
             self._log('Duplicates removal skipped')
 
         return df
-    
+    # handeling missing values with mean, median and drop
     def handle_missing_values(self, df):
         self._log(f'Handling missing values using: {self.missing}')
-        if self.missing == 'drop':
+        if self.missing.lower() == 'drop':
             df = df.dropna()
-        elif self.missing == 'mean':
+        elif self.missing.lower() == 'mean':
             df =  df.fillna(df.select_dtypes(include = ['number']).mean())
-        elif self.missing == 'median':
+        elif self.missing.lower() == 'median':
             df = df.fillna(df.select_dtypes(include  = ['number']).median())
         else:
             raise ValueError("Invalid missing value")
         
         return df
-
+    # shows correlation between the variables
     def show_correlation(self,df):
         if not self.show_corr :
             return 
@@ -70,7 +71,7 @@ class DataCleaner:
         return
 
     def clean(self):
-
+        # executing the methods
         try:
             df = self.load_data()
             df = self.remove_duplicates(df)
@@ -79,6 +80,7 @@ class DataCleaner:
             self._log('Cleaning complete')
 
             return df
+        # handeling exceptions
         except Exception as e:
             self._log(f'[Error]: {e}')
             return None 

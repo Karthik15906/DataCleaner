@@ -30,6 +30,8 @@ To solve this, I built **DataCleaner** — a lightweight library that handles co
 
 - 📊 Logging support to track cleaning steps
 
+- 🧑🏻‍❤️‍👩🏻 shows correlation between the features
+
 ---
 
 ## ⚙️ Installation
@@ -38,4 +40,5 @@ Make sure you have Python installed, then install dependencies:
 
 ```bash
 pip install pandas
+pip install os
 ```
