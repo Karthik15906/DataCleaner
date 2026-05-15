@@ -21,7 +21,7 @@ class DataCleaner:
 
         self._log(f'Loading Data from {self.file_path}')
 
-            # redaing data of different files
+            # reading data of different files
         if self.file_path.endswith('.csv'):
             df = pd.read_csv(self.file_path)
         elif self.file_path.endswith('.xlsx'):
